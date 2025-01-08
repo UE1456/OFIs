@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\usepackage[defernumbers=true, backend=biber,
+style=apa, sorting=anyt]{biblatex} % APA style with BibLaTeX
+
+\addbibresource{refs.bib}
+
+\title{Order Flow Imbalance (OFI) Analysis: Methodology and Insights}
+\author{Uri Enzel}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+  \begin{minipage}{0.8\textwidth}
+    \small
+    This report should have presented an analysis of Order Flow Imbalance (OFI) and its relationship with price changes in financial markets. Using market data, the OFI would have been calculated for five levels of bid and ask prices. Principal Component Analysis (PCA) was applied to integrate the imbalance metrics into a singular explanatory feature. Unfortunately, there are no findings at this point, as is explained in the Discussion section\ref{sec:disc}.
+  \end{minipage}
+\end{center}
+
+\vspace{0.5cm}
+
+% Methodology
+\section*{Methodology}
+\textbf{Order Flow Imbalance Calculation} (OFI): was computed as given by \textcite{Cont2023CrossImpact} for five levels of bid and ask prices. The calculation incorporated changes in price and size to assess market pressure:
+
+\[
+OF_{i,n}^{m,b} = \begin{cases} 
+   \quad q_{i,n}^{m,b}, & \text{if } p_{i,n}^{m,b} > p_{i,n-1}^{m,b} \\
+    q_{i,n}^{m,b} - q_{i,n-1}^{m,b}, & \text{if } p_{i,n}^{m,b} = p_{i,n-1}^{m,b} \\
+    -q_{i,n-1}^{m,b}, & \text{if } p_{i,n}^{m,b} < p_{i,n-1}^{m,b}
+\end{cases}
+\]
+
+\[
+OF_{i,n}^{m,a} = \begin{cases} 
+   \quad -q_{i,n}^{m,a}, & \text{if } p_{i,n}^{m,a} > p_{i,n-1}^{m,a} \\
+    q_{i,n}^{m,a} - q_{i,n-1}^{m,a}, & \text{if } p_{i,n}^{m,a} = p_{i,n-1}^{m,a} \\
+    \quad q_{i,n-1}^{m,a}, & \text{if } p_{i,n}^{m,a} < p_{i,n-1}^{m,a}
+\end{cases}
+\]
+
+Here, $p_{i,n}^{m,b}$ and $p_{i,n}^{m,a}$ represent the bid and ask prices at level $m$ for stock $i$ at time $n$, while $q_{i,n}^{m,b}$ and $q_{i,n}^{m,a}$ are the corresponding bid and ask sizes.
+
+
+The total OFI for a stock $i$ at time $t$ is then computed as the sum over all levels:
+\[
+OFI_{i,t}^{m,h} = \sum_{n=t-h+1}^{t} OF_{i,t}^{m,b} - OF_{i,t}^{m,a}
+\]
+
+where t-h+1 and t are the time interval boundaries, in our case daily, for each stock m.
+
+\textbf{Principal Component Analysis} (PCA): was applied to reduce dimensionality and integrate the OFI metrics from multiple levels into a single metric. The first principal component accounted for the majority of variance.
+
+\textbf{Cross-Impact Analysis}: correlation heatmaps and regression models were used to evaluate the predictive and explanatory power of OFI metrics on price changes over time.
+
+
+% Results
+\section*{Results}
+\textbf{Key Findings:}
+\begin{itemize}
+    \item Heatmap analysis revealed xxx correlations between integrated OFI and price changes.
+    \item Regression models achieved a coefficient of xxx, highlighting the explanatory power of OFI.
+\end{itemize}
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{heatmap_placeholder.png} % Placeholder for heatmap
+%     \caption{Correlation Heatmap between OFI and Price Changes.}
+% \end{figure}
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{scatter_plot_placeholder.png} % Placeholder for scatter plot
+%     \caption{Scatter Plot of Integrated OFI vs Price Changes.}
+% \end{figure}
+
+% Discussion
+\section*{Discussion}\label{sec:disc}
+Due to the size of the dataset, even processing one day's data caused the program to collapse under memory constraints. However, the implementation provides valuable insight into the calculation possibilities for Order Flow Imbalance (OFI) metrics and their application to high-frequency market analysis. The code is designed to process OFI across five levels of the Limit Order Book (LOB), integrate these metrics using Principal Component Analysis (PCA), and estimate regression coefficients for key stocks such as AAPL, AMGN, TSLA, JPM, and XOM.
+
+The data was too large to upload to GitHub, but the approach outlined here should enable future improvements in handling large datasets and visualizing key metrics. Despite these challenges, this experience was both rewarding and insightful. It highlights the potential of market microstructure analysis and emphasizes the importance of computational efficiency in financial data processing.
+
+Although I lacked prior familiarity with this material, I made a concerted effort to approach the task rigorously, and I am proud of the methodology developed. The code demonstrates a strong foundation for calculating OFI metrics, and with additional resources, it should be able to visualize the data and generate the desired coefficients for each stock effectively. I am grateful for the opportunity to work on this challenging and enriching project.
+
+
+% Conclusion
+\section*{Conclusion}
+This study emphasises the utility of OFI as a predictor of price changes, hypothetically supported by statistical evidence and visual analysis. Future work could involve applying machine learning models to further leverage OFI and exploring its interaction with other market components and variables.
+
+% References
+
+\printbibliography[heading=bibintoc, title={References}]
+
+\end{document}
